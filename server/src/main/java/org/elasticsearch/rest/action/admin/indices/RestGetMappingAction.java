@@ -147,8 +147,7 @@ public class RestGetMappingAction extends BaseRestHandler {
             }
         });
     }
-
-
+    
     @Override
     protected Set<String> responseParams() {
         return Collections.singleton(INCLUDE_TYPE_NAME_PARAMETER);
