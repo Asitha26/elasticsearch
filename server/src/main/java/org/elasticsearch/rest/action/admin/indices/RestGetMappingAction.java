@@ -48,6 +48,7 @@ import org.elasticsearch.rest.action.RestBuilderListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -86,7 +87,6 @@ public class RestGetMappingAction extends BaseRestHandler {
             deprecationLogger.deprecated("Type exists requests are deprecated, as types have been deprecated.");
         }
 
-        final boolean includeTypeName = request.paramAsBoolean(INCLUDE_TYPE_NAME_PARAMETER, true);
         final String[] indices = Strings.splitStringByCommaToArray(request.param("index"));
         final String[] types = request.paramAsStringArrayOrEmptyIfAll("type");
         final GetMappingsRequest getMappingsRequest = new GetMappingsRequest();
@@ -139,12 +139,18 @@ public class RestGetMappingAction extends BaseRestHandler {
                         builder.field("error", message);
                         builder.field("status", status.getStatus());
                     }
-                    response.toXContent(builder, ToXContent.EMPTY_PARAMS, includeTypeName);
+                    response.toXContent(builder, ToXContent.EMPTY_PARAMS);
                 }
                 builder.endObject();
 
                 return new BytesRestResponse(status, builder);
             }
         });
+    }
+
+
+    @Override
+    protected Set<String> responseParams() {
+        return Collections.singleton(INCLUDE_TYPE_NAME_PARAMETER);
     }
 }
