@@ -36,7 +36,9 @@ import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.rest.action.RestBuilderListener;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 import static org.elasticsearch.rest.RestRequest.Method.GET;
 import static org.elasticsearch.rest.RestStatus.NOT_FOUND;
@@ -106,5 +108,10 @@ public class RestGetFieldMappingAction extends BaseRestHandler {
             }
         }
         return false;
+    }
+
+    @Override
+    protected Set<String> responseParams() {
+        return Collections.singleton(INCLUDE_TYPE_NAME_PARAMETER);
     }
 }
